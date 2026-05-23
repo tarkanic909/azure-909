@@ -1,33 +1,33 @@
-resource "azurerm_resource_group" "lab" {
+resource "azurerm_resource_group" "k8s" {
   name     = var.resource_group_name
   location = var.location
 }
 
-resource "azurerm_virtual_network" "lab" {
+resource "azurerm_virtual_network" "k8s" {
   name                = "vnet-k8s-lab"
-  location            = azurerm_resource_group.lab.location
-  resource_group_name = azurerm_resource_group.lab.name
+  location            = azurerm_resource_group.k8s.location
+  resource_group_name = azurerm_resource_group.k8s.name
   address_space       = ["10.0.0.0/16"]
 }
 
 resource "azurerm_subnet" "master" {
   name                 = "subnet-master"
-  resource_group_name  = azurerm_resource_group.lab.name
-  virtual_network_name = azurerm_virtual_network.lab.name
+  resource_group_name  = azurerm_resource_group.k8s.name
+  virtual_network_name = azurerm_virtual_network.k8s.name
   address_prefixes     = ["10.0.1.0/24"]
 }
 
 resource "azurerm_subnet" "workers" {
   name                 = "subnet-workers"
-  resource_group_name  = azurerm_resource_group.lab.name
-  virtual_network_name = azurerm_virtual_network.lab.name
+  resource_group_name  = azurerm_resource_group.k8s.name
+  virtual_network_name = azurerm_virtual_network.k8s.name
   address_prefixes     = ["10.0.2.0/24"]
 }
 
 resource "azurerm_network_security_group" "k8s" {
   name                = "nsg-k8s"
-  resource_group_name = azurerm_resource_group.lab.name
-  location            = azurerm_resource_group.lab.location
+  resource_group_name = azurerm_resource_group.k8s.name
+  location            = azurerm_resource_group.k8s.location
 
   security_rule {
     name                       = "allow-ssh"
