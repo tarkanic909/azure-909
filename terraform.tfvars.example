@@ -1,0 +1,5 @@
+subscription_id     = "your-subscription-id"
+location            = "westeurope"
+resource_group_name = "k8s-lab"
+ssh_public_key      = "ssh-ed25519 AAAA... user@host"
+admin_user          = "ansible"
