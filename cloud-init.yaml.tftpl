@@ -76,6 +76,7 @@ write_files:
       set -euo pipefail
 
       CONTROL_PLANE_IP="${CONTROL_PLANE_IP}"
+      CONTROL_PLANE_PUBLIC_IP="${CONTROL_PLANE_PUBLIC_IP}"
       POD_CIDR="10.244.0.0/16"
 
       if [ ! -f /etc/kubernetes/admin.conf ]; then
