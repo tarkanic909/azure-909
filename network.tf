@@ -1,8 +1,3 @@
-resource "azurerm_resource_group" "k8s" {
-  name     = var.resource_group_name
-  location = var.location
-}
-
 resource "azurerm_virtual_network" "k8s" {
   name                = "vnet-k8s-lab"
   location            = azurerm_resource_group.k8s.location
@@ -51,6 +46,18 @@ resource "azurerm_network_security_group" "k8s" {
     destination_port_range     = "*"
     source_address_prefix      = "10.0.0.0/16"
     destination_address_prefix = "10.0.0.0/16"
+  }
+
+  security_rule {
+    name                       = "allow-k8s-api"
+    priority                   = 300
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "6443"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
   }
 }
 

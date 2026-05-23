@@ -82,6 +82,7 @@ write_files:
         kubeadm init \
           --pod-network-cidr="$${POD_CIDR}" \
           --apiserver-advertise-address="$${CONTROL_PLANE_IP}" \
+          --apiserver-cert-extra-sans="$${CONTROL_PLANE_PUBLIC_IP}" \
           --skip-phases=addon/kube-proxy
       fi
 

@@ -1,6 +1,6 @@
 resource "azurerm_network_interface" "k8s" {
   for_each            = local.vms
-  name                = "k8s-${each.key}-nic"
+  name                = "${local.prefix}-${each.key}-nic"
   location            = azurerm_resource_group.k8s.location
   resource_group_name = azurerm_resource_group.k8s.name
 

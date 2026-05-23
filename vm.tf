@@ -1,6 +1,6 @@
 resource "azurerm_linux_virtual_machine" "k8s" {
   for_each            = local.vms
-  name                = "k8s-${each.key}"
+  name                = "${local.prefix}-${each.key}"
   location            = azurerm_resource_group.k8s.location
   resource_group_name = azurerm_resource_group.k8s.name
   size                = "Standard_D2as_v4"
@@ -31,11 +31,12 @@ resource "azurerm_linux_virtual_machine" "k8s" {
 
   custom_data = base64encode(
     templatefile("${path.module}/cloud-init.yaml.tftpl", {
-      is_master           = each.key == "master"
-      CONTROL_PLANE_IP    = each.key == "master" ? azurerm_network_interface.k8s["master"].private_ip_address : ""
-      cluster_public_key  = tls_private_key.cluster_ssh.public_key_openssh
-      cluster_private_key = each.key == "master" ? tls_private_key.cluster_ssh.private_key_openssh : ""
-      worker_ips          = each.key == "master" ? [for k, v in azurerm_network_interface.k8s : v.private_ip_address if k != "master"] : []
+      is_master               = each.key == "master"
+      CONTROL_PLANE_IP        = each.key == "master" ? azurerm_network_interface.k8s["master"].private_ip_address : ""
+      CONTROL_PLANE_PUBLIC_IP = azurerm_public_ip.k8s["master"].ip_address
+      cluster_public_key      = tls_private_key.cluster_ssh.public_key_openssh
+      cluster_private_key     = each.key == "master" ? tls_private_key.cluster_ssh.private_key_openssh : ""
+      worker_ips              = each.key == "master" ? [for k, v in azurerm_network_interface.k8s : v.private_ip_address if k != "master"] : []
     })
   )
 }
