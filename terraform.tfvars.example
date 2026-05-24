@@ -1,5 +1,7 @@
 subscription_id     = "your-subscription-id"
 location            = "westeurope"
-resource_group_name = "k8s-lab"
+prefix              = "k8s-lab"
 ssh_public_key      = "ssh-ed25519 AAAA... user@host"
-admin_user          = "ansible"
+admin_user          = "azureuser"
+vm_size             = "Standard_D2as_v5"
+single_node         = false

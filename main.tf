@@ -14,7 +14,7 @@ terraform {
   }
 
   backend "azurerm" {
-    resource_group_name  = "tfstate-rg"
+    resource_group_name  = "rg-tfstate"
     storage_account_name = "tfstate909"
     container_name       = "tfstate"
     key                  = "azure-909.tfstate"
