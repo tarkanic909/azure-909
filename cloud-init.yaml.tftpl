@@ -105,6 +105,10 @@ write_files:
         --set ipam.mode=cluster-pool \
         --set ipam.operator.clusterPoolIPv4PodCIDRList="$${POD_CIDR}"
 
+      mkdir -p /home/azureuser/.kube
+      cp /etc/kubernetes/admin.conf /home/azureuser/.kube/config
+      chown -R azureuser:azureuser /home/azureuser/.kube
+
       kubeadm token create --print-join-command > /root/join-command.sh
       chmod +x /root/join-command.sh
 
