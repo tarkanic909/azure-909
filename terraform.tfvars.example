@@ -3,5 +3,5 @@ location            = "westeurope"
 prefix              = "k8s-lab"
 ssh_public_key      = "ssh-ed25519 AAAA... user@host"
 admin_user          = "azureuser"
-vm_size             = "Standard_D2as_v5"
+vm_size             = { master = "Standard_D2as_v5", worker = "Standard_B2s" }
 single_node         = false
